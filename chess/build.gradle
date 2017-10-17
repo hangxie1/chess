@@ -1,0 +1,102 @@
+import org.tmatesoft.svn.core.wc.*;
+
+buildscript {
+    ext {
+        springBootVersion = '1.5.3.RELEASE'
+    }
+    repositories {
+        mavenCentral() 
+
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'jacoco'
+    jacoco {
+      toolVersion = "0.7.5+"
+   }
+
+
+jar
+{
+    baseName = 'chess'
+    version = '1.0.0'
+}
+
+springBoot
+{
+    executable = true
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+compileJava 
+{
+    options.encoding = 'UTF-8'
+    options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+}
+
+repositories
+{
+    mavenCentral()
+}
+
+dependencies
+{
+ 
+    compile('org.springframework.boot:spring-boot-starter-jdbc')
+    compile('mysql:mysql-connector-java:6.0.6')
+    compile('org.projectlombok:lombok:1.16.16')
+
+    compile('commons-validator:commons-validator:1.6')
+    compile('com.google.guava:guava:21.0')
+    
+    compile('org.apache.httpcomponents:httpclient:4.5.3')    
+
+    compile('net.logstash.logback:logstash-logback-encoder:4.9')
+    compile('org.codehaus.janino:janino:3.0.7')       
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    
+    compile("org.springframework.security.oauth:spring-security-oauth2:2.1.0.RELEASE")
+    compile('org.springframework.boot:spring-boot-starter-web')
+    compile('org.springframework.boot:spring-boot-maven-plugin:1.3.3.RELEASE')
+    compile ('org.apache.httpcomponents:httpclient:4.4.1')
+    compile('commons-cli:commons-cli:1.3.1')
+    compile ('com.rabbitmq:amqp-client:3.4.3')
+    compile('org.projectlombok:lombok:1.16.16')
+    compile('org.apache.commons:commons-lang3:3.6')
+
+    compile "ch.qos.logback:logback-classic"
+    compile "org.slf4j:log4j-over-slf4j"
+   
+    
+    compile('org.springframework.boot:spring-boot-devtools')
+    compile('org.springframework.boot:spring-boot-starter-actuator')
+    compile('org.springframework.boot:spring-boot-starter-aop')
+}
+
+test.finalizedBy(project.tasks.jacocoTestReport)
+
+configurations.all
+{
+   
+}
+
+task(debug, dependsOn: 'classes', type: JavaExec)
+{
+    main = 'com.hang.chess.Chess'
+    classpath = sourceSets.main.runtimeClasspath    
+    debug true
+}
+
+
+
+
+
